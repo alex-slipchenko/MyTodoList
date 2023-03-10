@@ -32,9 +32,14 @@ const Main = () => {
 
     const addItem = async (event) => {
         event.preventDefault();
-        await fetch(`${API_URL} / todos`, {
+        await fetch(`${API_URL}/todos`, {
             method: 'POST',
-            body: JSON.stringify({ name, done: false })
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({name:name,done:false})
+            // body: JSON.stringify({ name, done: false })
         });
     }
 

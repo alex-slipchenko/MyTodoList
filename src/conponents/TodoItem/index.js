@@ -1,6 +1,6 @@
-const TodoItem = ({ nameOfItem }) => {
-    console.log(nameOfItem.createdAt);
-    return <li key={nameOfItem.id}>{nameOfItem.name}</li> 
+const TodoItem = ({ nameOfItem}) => {
+    console.log(nameOfItem);
+    return <li >{nameOfItem}</li> 
 }
 
 export default TodoItem;
