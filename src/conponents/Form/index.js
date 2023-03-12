@@ -1,6 +1,6 @@
 import './style.css';
 const Form = ({ name, setName, submitForm }) => {
-    console.log(name);
+  
     return (
         <form onSubmit={submitForm}>
             <label>
