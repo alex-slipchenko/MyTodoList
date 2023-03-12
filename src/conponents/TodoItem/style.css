@@ -1,5 +1,10 @@
+.line_through{
+    text-decoration: line-through;
+}
+
 svg{
 
     color:brown;
     cursor: pointer;
 }
+

@@ -13,12 +13,19 @@ import { API_URL } from '../../constants'
 //==================================================
 const Main = () => {
     const [todos, setTodos] = useState([]);//(1)
-     const [name, setName] = useState('');//(2)
+    const [name, setName] = useState('');//(2)
     const [isLoaded, setIsLoaded] = useState(false);//(3)
-   
-
-
     const [editId, setEditId] = useState(null);//(4)
+
+    // const sendRequest = async(method, body, id = null) => {
+    //     await fetch(id ? `${API_URL}/todos/${id}` :` ${ API_URL } / todos`, {
+    //         method,
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ body })
+    //     });
+    // }
 
     useEffect(() => {
         if (!isLoaded) {
@@ -54,21 +61,21 @@ const Main = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: name, done: false })
+            body: JSON.stringify({ name, done: false })
         });
         setIsLoaded(false);//перезаписую знов на фальс стейт(3).
         setName('');//очищую валью інпута після отправки данних на апдейт
         setEditId(null);//очищую сет(4)
     }
-    
 
 
-    const setEdit = (name,id) => {//прокидую цю ф-цію через пропси в айтем(лішку<li>),для редагування на мокАпі
+
+    const setEdit = (name, id) => {//прокидую цю ф-цію через пропси в айтем(лішку<li>),для редагування на мокАпі
         setName(name);
         setEditId(id)
     }
 
-    const deleItem = async (event,id) => {//отправляю для видалення в  мокАпі натискаючи на відерце отправляю айди
+    const deleItem = async (event, id) => {//отправляю для видалення в  мокАпі натискаючи на відерце отправляю айди
         event.preventDefault();
         await fetch(`${API_URL}/todos/${id}`, {
             method: 'DELETE',
@@ -77,15 +84,29 @@ const Main = () => {
             },
         });
         setIsLoaded(false);//перезаписую знов на фальс стейт(3).
-       
+
     }
 
 
+
+
+    const setItemAsDoneOrNot = async (event, id, isDone) => {//отправляю для редагування в мокАпі  і на сторінкці зачеркую або на оборот
+        event.preventDefault();
+        await fetch(`${API_URL}/todos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ done: !isDone })
+        });
+        setIsLoaded(false);//перезаписую знов на фальс стейт(3).
+
+    }
     return (
         <div>
             Todo List
-            <TodoList todos={todos} setEdit={setEdit} deleItem={deleItem} />
-            <Form name={name} setName={setName} submitForm={editId ? editItem :addItem}  />
+            <TodoList todos={todos} setEdit={setEdit} deleItem={deleItem} setItemAsDoneOrNot={setItemAsDoneOrNot} />
+            <Form name={name} setName={setName} submitForm={editId ? editItem : addItem} />
         </div>
     );
 
